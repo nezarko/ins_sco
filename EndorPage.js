@@ -12,47 +12,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useReactToPrint } from 'react-to-print';
 import { useForm } from "react-hook-form";
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
-import { width } from '@mui/system';
 
-
-
-const url="http://localhost:3000";
-const lurl="https://alwafi.thesmartlogic.com";
+const lurl="http://localhost:3001";
+const url="https://alwafi.thesmartlogic.com";
 
 toast.configure()
-const ScoPage2=(props)=>{
+const EndorPage=(props)=>{
   const [showhide, setShowhide]=useState('');
   const [allpolno,setAllpolno]=useState([])
-  const [cartype,setCartype]=useState([])
-  const [carty,setCarty]=useState()
   const [value, setValue] = useState('')
   const handleshowhidemajins=(e)=>{   
     setShowhide(e.target.value);
 
   }
-  const handlescartype=(e)=>{   
-    setCarty(e.target.value);
-
-  }
-
-  const getcartype= ()=>{
-                   
-    axios.get(`${url}/getcartype/${carty}`)
-             .then((res)=>{ 
-               setCartype(res.data);
-               console.log(res.data)
-              
-             })
-           
-          
-            } 
-
-
   const [values, setValues] = useState({
     pol_no: "",
     real_pol_no:"",
-    pol_year: "2023",
-    doc_type:"",
+    pol_year: "2022",
     endor_type:"",
     ins_comp: "",
     acc_type: "",
@@ -83,11 +59,11 @@ const ScoPage2=(props)=>{
     const notify = () => toast.success("تمت اضافة الوثيقة بنجاح",{position:toast.POSITION.TOP_RIGHT});
    
     const addemp=()=>{
-      console.log(values.doc_type+"//"+values.endor_type)
+      
         axios.post(`${url}/create`,{pol_no:values.pol_no,pol_year:values.pol_year,ins_comp:values.ins_comp,acc_type:values.acc_type,
         comp_acc:values.comp_acc,comp_name:values.comp_name,cust_name:values.cust_name,maj_ins:values.maj_ins,min_ins:values.min_ins,reg_dt:values.reg_dt,start_dt:values.start_dt,
         end_dt:values.end_dt,cust_id:values.cust_id,cust_jaw:values.cust_jaw,car_type:values.car_type,teraz_no:values.teraz_no,prod_year:values.prod_year,plate_no:values.plate_no,chas_no:values.chas_no,sum_insur:values.sum_insur,
-        prem:values.prem,discount:values.discount,total_prem:values.total_prem,notes:values.notes,doc_type:"اصل",endor_type:values.endor_type,real_pol_no:values.real_pol_no
+        prem:values.prem,discount:values.discount,total_prem:values.total_prem,notes:values.notes,doc_type:"ملحق",endor_type:values.endor_type,real_pol_no:values.real_pol_no
     })
         .then((res)=>{
           notify()
@@ -100,10 +76,7 @@ const ScoPage2=(props)=>{
          )
        
        }
-       const onSubmit = data => {
-        console.log(data)
-        reset()
-      }
+     
 
        const componentRef = useRef();
        const handlePrint = useReactToPrint({
@@ -113,39 +86,40 @@ const ScoPage2=(props)=>{
           const { register, handleSubmit, reset, formState: { errors } } = useForm();
           const onChange = (e) => {
             setValues({ ...values, [e.target.name]: e.target.value });
+           
           };
-
-         const handleFormReset = (e) => {
-          setValues(() =>'')
-          setValues({ pol_no: "",
-          real_pol_no:"",
-          pol_year: "2023",
-          doc_type:"",
-          endor_type:"",
-          ins_comp: "",
-          acc_type: "",
-          comp_acc: "",
-          comp_name: "",
-          cust_name: "",
-          maj_ins: "",
-          min_ins: "",
-          reg_dt: "",
-          start_dt: "",
-          cust_id: "",
-          cust_jaw: "",
-          car_type:"",
-          teraz_no:"",
-          prod_year:"",
-          end_dt: "",
-          plate_no: "",
-          chas_no: "",
-          sum_insur: "",
-          cover_details: "",
-          prem: "",
-          discount: "",
-          total_prem: "",
-          notes: "", });
-          }
+          const handleFormReset = (e) => {
+            setValues(() =>'')
+            setValues({ pol_no: "",
+            real_pol_no:"",
+            pol_year: "2022",
+            doc_type:"",
+            endor_type:"",
+            ins_comp: "",
+            acc_type: "",
+            comp_acc: "",
+            comp_name: "",
+            cust_name: "",
+            maj_ins: "",
+            min_ins: "",
+            reg_dt: "",
+            start_dt: "",
+            cust_id: "",
+            cust_jaw: "",
+            car_type:"",
+            teraz_no:"",
+            prod_year:"",
+            end_dt: "",
+            plate_no: "",
+            chas_no: "",
+            sum_insur: "",
+            cover_details: "",
+            prem: "",
+            discount: "",
+            total_prem: "",
+            notes: "", });
+            }
+  
 
          var premval=()=>{
           console.log(values.prem-values.discount)
@@ -156,11 +130,6 @@ const ScoPage2=(props)=>{
            const twoCalls = e => {
             handleshowhidemajins(e)
                onChange(e)
-            }
-            const cartypecalls=(e)=>{
-              handlescartype(e)
-              onChange(e)
-            
             }
             useEffect(() => {
               (async () => {
@@ -177,7 +146,7 @@ const ScoPage2=(props)=>{
 
         <div className="container" >
         
-              <h1 style={{marginTop:"2rem",color:"white",backgroundColor:'#0284c7',fontFamily:'Tajawal,Helvetica Neue,sans-serif',fontWeight:'700'}} className="shadow-sm  text-center   ">اضافة وثيقة جديدة </h1>
+              <h1 style={{marginTop:"2rem",color:"white",backgroundColor:'#0284c7',fontFamily:'Tajawal,Helvetica Neue,sans-serif',fontWeight:'700'}} className="shadow-sm  text-center   ">اضافة ملحق جديد </h1>
               <Row className="mainrow">
                 <Col className="col shadow-sm inputs">
                
@@ -188,11 +157,45 @@ const ScoPage2=(props)=>{
                 <Row className="row1">
                        
                         <FormControl  id="outlined-basic" as={Col} controlId="formGridPassword">
-                        <TextValidator name='pol_year' size="small"  variant="outlined" type="number" InputProps={{ readOnly: true,shrink: true }}label="سنة الوثيقة"  value={2023}/>
+                        <TextValidator name='pol_year' size="small"  variant="outlined" type="number" InputProps={{ readOnly: true,shrink: true }}label="سنة الوثيقة"  value={2022}/>
                         </FormControl>
 
+                        <FormControl id="outlined-basic" as={Col}>
+                        <InputLabel id="demo-simple-select-label"> نوع الملحق</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                         label="نوع الوثيقة"
+                         size="small"
+                         name="endor_type"
+                         value={values.endor_type}
+                         onChange={onChange}
+                          //ref={register}
+                        >
+                          
+                          <MenuItem value={'تجديد'}> ملحق تجديد</MenuItem>
+                          <MenuItem value={'نقل ملكية'}> ملحق نقل ملكية</MenuItem>
+                          <MenuItem value={'رقم مركبة'}> ملحق اضافة رقم مركبة</MenuItem>
+                          <MenuItem value={'اضافة سائقين'}>ملحق اضافة سائقين </MenuItem>
+                      
+                          
+                          </Select>
+                          
+                      </FormControl>
+                      <FormControl  id="outlined-basic" as={Col} controlId="formGridPassword">
+                        <TextValidator name='real_pol_no' size="small" variant="outlined" type="number"  label="رقم الوثيقة الاصل" 
+                          value={values.real_pol_no}
+                          onChange={onChange}
+                          validators={['required']}
+                          errorMessages={['حقل مطلوب']}
+                         
+                            />
+                        </FormControl>
+                      
+                      
+                    
                         <FormControl  id="outlined-basic" as={Col} controlId="formGridPassword">
-                        <TextValidator name='pol_no' size="small" variant="outlined" type="number"   label="رقم الوثيقة" 
+                        <TextValidator name='pol_no' size="small" variant="outlined" type="number"   label="رقم الملحق" 
                           value={values.pol_no}
                           onChange={onChange}
                           validators={['required']}
@@ -250,7 +253,11 @@ const ScoPage2=(props)=>{
                      
                         />
                          </FormControl>
-                         <FormControl  as={Col} id="outlined-basic">
+                        
+                    </Row>
+
+                    <Row className="row2">
+                    <FormControl  as={Col} id="outlined-basic">
                          <TextValidator name='comp_name' size="small" variant="outlined" type="text"   label="اسم الشركة" 
                           value={values.comp_name}
                           onChange={onChange}
@@ -271,11 +278,6 @@ const ScoPage2=(props)=>{
                            
                         </FormControl>
 
-                        
-                    </Row>
-
-                    <Row className="row2">
-                    
 
                         <FormControl id="outlined-basic" as={Col}>
                         <InputLabel id="demo-simple-select-label">التأمين الرئيسي</InputLabel>
@@ -289,7 +291,6 @@ const ScoPage2=(props)=>{
                          onChange={twoCalls}
                          
                         >
-                          
                           <MenuItem value={'سيارات'}>سيارات</MenuItem>
                           <MenuItem value={'عامة'}>عامة</MenuItem>
                           </Select>
@@ -338,11 +339,9 @@ const ScoPage2=(props)=>{
                     
                     
                     }
-
-                      
-
                       
                      <FormControl as={Col} id="outlined-basic">
+                       
                         <TextValidator name='reg_dt' size="small" helperText=" تاريخ التسجيل" variant="outlined" type="date" label="" 
                          value={values.reg_dt}
                          onChange={onChange}
@@ -359,14 +358,21 @@ const ScoPage2=(props)=>{
                        />
                         </FormControl>
                         <FormControl  as={Col} id="outlined-basic">
-                        <TextValidator name='end_dt' size="small" helperText="نهاية التأمين" variant="outlined" type="date"  label=""
+                        <TextValidator name='end_dt' size="small" helperText="نهاية التأمين" variant="outlined" type="date"  label=" "
                          value={values.end_dt}
                          onChange={onChange}
                          validators={['required']}
                          errorMessages={['حقل مطلوب']}
                         />
                         </FormControl>
-                        <FormControl as={Col} id="outlined-basic">
+                        
+
+                        
+                        
+                    </Row>
+                      
+                    <Row className="row4">
+                    <FormControl as={Col} id="outlined-basic">
                         <TextValidator name='cust_id' size="small" variant="outlined" type="number"  label="  هوية الزبون"
                          value={values.cust_id}
                          onChange={onChange}
@@ -383,14 +389,7 @@ const ScoPage2=(props)=>{
                         />
 
                         </FormControl>
-
                         
-                        
-                    </Row>
-                      
-                    <Row className="row4">
-                   
-                            
                         <FormControl id="outlined-basic" as={Col}>
                          <InputLabel id="demo-simple-select-label">نوع السيارة </InputLabel>
                         <Select
@@ -400,18 +399,14 @@ const ScoPage2=(props)=>{
                          size="small"
                          name='car_type'
                          value={values.car_type}
-                         onChange={cartypecalls}
-                         onMouseLeave={getcartype}
-                         
-                         
+                         onChange={onChange}
                         >
                           <MenuItem value="">الكل</MenuItem>
                         <MenuItem value="Dodge">Dodge</MenuItem>
-                        <MenuItem value="جيب">جيب</MenuItem>
                         <MenuItem value="أفيكو">أفيكو</MenuItem>
-                        <MenuItem value="الفا روميو">الفا روميو</MenuItem>
-                        <MenuItem value="اوبل">اوبل</MenuItem>
-                        <MenuItem value="اودي">اودي</MenuItem>
+                        <MenuItem value="ألفا روميو">الفا روميو</MenuItem>
+                        <MenuItem value="أوبل">اوبل</MenuItem>
+                        <MenuItem value="أودي">اودي</MenuItem>
                         <MenuItem value="ايسوزو">ايسوزو</MenuItem>
                         <MenuItem value="باص">باص</MenuItem>
                         <MenuItem value="بي ام دبليو">بي ام دبليو</MenuItem>
@@ -419,6 +414,7 @@ const ScoPage2=(props)=>{
                         <MenuItem value="تويوتا">تويوتا</MenuItem>
                         <MenuItem value="جاجوار">جاجوار</MenuItem>
                         <MenuItem value="جي ام سي">جي ام سي </MenuItem>
+                        <MenuItem value="جيب">جييب</MenuItem>
                         <MenuItem value="داتشيا">داتشيا</MenuItem>
                         <MenuItem value="داف">داف</MenuItem>
                         <MenuItem value="دايو">دايو</MenuItem>
@@ -426,8 +422,9 @@ const ScoPage2=(props)=>{
                         <MenuItem value="ديهاتسو">ديهاتسو</MenuItem>
                         <MenuItem value="روفر">روفر</MenuItem>
                         <MenuItem value="رينو">رينو</MenuItem>
-                        <MenuItem value="سانغ يونغ">سانغ يونغ</MenuItem>
+                        <MenuItem value="سانغ يونق">سانغ يونغ</MenuItem>
                         <MenuItem value="ستروين">ستروين</MenuItem>
+                        <MenuItem value="سكانيا">سكانيا</MenuItem>
                         <MenuItem value="سكودا">سكودا</MenuItem>
                         <MenuItem value="سوبارو">سوبارو</MenuItem>
                         <MenuItem value="سوزوكي">سوزوكي</MenuItem>
@@ -448,36 +445,10 @@ const ScoPage2=(props)=>{
                         <MenuItem value="نيسان">نيسان</MenuItem>
                         <MenuItem value="هوندا">هوندا</MenuItem>
                         <MenuItem value="هونداي">هونداي</MenuItem>
-                        <MenuItem value="سكانيا">سكانيا</MenuItem>
-                        <MenuItem value="عربة جر">عربة مجرورة</MenuItem>
-                        <MenuItem value="معدة زراعية">معدة زراعية</MenuItem>
-                        <MenuItem value="On Test">On Test</MenuItem>
                           </Select>
                       </FormControl>
-
-
-
-
-                      <FormControl id="outlined-basic" as={Col}>
-                         <InputLabel id="demo-simple-select-label">نوع السيارة </InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                         label="طراز المركبة"
-                         size="small"
-                         name='teraz_no'
-                         value={values.teraz_no}
-                         onChange={onChange}
-                        >
-                           {cartype.map((item,index)=>{
-                        return(
-                          <MenuItem value={item.name}>{item.name}</MenuItem>
-                         )})}
-                          </Select>
-                      </FormControl>
-
-
-                      {/* <FormControl as={Col} id="outlined-basic">
+                       
+                      <FormControl as={Col} id="outlined-basic">
                         <TextValidator name='teraz_no' size="small" variant="outlined" type="text"  label=" طراز المركبة" 
                          value={values.teraz_no}
                          onChange={onChange}
@@ -485,8 +456,10 @@ const ScoPage2=(props)=>{
                          errorMessages={['حقل مطلوب']}
                          />
                          
-                        </FormControl> */}
-                         
+                        </FormControl>
+                       
+
+                      
                         <FormControl id="outlined-basic" as={Col}>
                          <InputLabel id="demo-simple-select-label"> سنة الصنع </InputLabel>
                         <Select
@@ -570,6 +543,7 @@ const ScoPage2=(props)=>{
                          />
                          
                         </FormControl>
+                       
                         <FormControl as={Col} id="outlined-basic">
                         <TextValidator name='chas_no' size="small"  variant="outlined"  type="text"  label="رقم الشاصي"
                          value={values.chas_no}
@@ -578,6 +552,7 @@ const ScoPage2=(props)=>{
                          errorMessages={['حقل مطلوب']}
                         />
                          </FormControl>
+                        
                                               
                     </Row>
                     <Row className="row">
@@ -632,10 +607,10 @@ const ScoPage2=(props)=>{
                    
                     </Row>
                     <Button style={{padding:'3px'}} type='submit' variant="contained" > <span className='icon'>{<AddCircleIcon />} اضافة </span></Button>
-                     <Button style={{padding:'3px',width:'60px',height:'48px',margin:'10px',fontSize:'1.2rem',fontFamily:'cursive'}}   variant="contained" value="Reset" type="reset" >تفريغ</Button>
-                 
+
+                    <Button style={{padding:'3px',width:'60px',height:'48px',margin:'10px',fontSize:'1.2rem',fontFamily:'cursive'}}   variant="contained" value="Reset" type="reset" >تفريغ</Button>
+                    
                     </ValidatorForm>
-                   
                    
                    
                  </Col>
@@ -647,4 +622,4 @@ const ScoPage2=(props)=>{
         </>
     )
 }
-export default ScoPage2
+export default EndorPage

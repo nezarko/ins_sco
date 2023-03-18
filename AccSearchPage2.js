@@ -12,8 +12,8 @@ import { Button, Modal,Col ,Table} from '@themesberg/react-bootstrap';
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-const url="http://localhost:3000";
-const lurl="https://alwafi.thesmartlogic.com";
+const lurl="http://localhost:3001";
+const url="https://alwafi.thesmartlogic.com";
 export const AccSearchPage = () => {
     const [doc,setDoc]=useState()
     const [Acc,setAcc]=useState([])
@@ -27,7 +27,6 @@ export const AccSearchPage = () => {
     const handleClose = () => setShowDefault(false);
     var d = Date(Date.now());
    var a = d.toString()
-   a=moment(a).format("DD/MM/YYYY")
    //var sum=0
 
    const accdtl=async() => {
@@ -63,11 +62,8 @@ export const AccSearchPage = () => {
         <div class="col-md-6">
             <div class="search"> 
              <input type="number"  onChange={(e)=>setDoc(e.target.value)} className="sinput form-control" placeholder=" ابحث من خلال رقم الوثيقة\رقم الحساب"/> 
-             <button onClick={accsearch} class="btn btn-primary">بحث</button>
-             <Button variant="primary"  className="my-1 m-3" onClick={() => setShowDefault(true)}>كشف حساب</Button>
-              </div>
-             
-             <button className='excle' onClick={handlePrint}><  FcPrint/></button>
+             <button onClick={accsearch} class="btn btn-primary">بحث</button> </div>
+             <button className='excle' onClick={handlePrint}><FcPrint/></button>
              <ExcelFile  element={<><button className='excle'><FaFileExcel/></button></>}>
                 <ExcelSheet data={Acc} name=" تفاصيل الشيكات">
                     <ExcelColumn label="polno" value="polno"/>
@@ -133,6 +129,7 @@ export const AccSearchPage = () => {
 
            <div >
            <React.Fragment >
+      <Button variant="primary"  className="my-3" onClick={() => setShowDefault(true)}>كشف حساب</Button>
 
       <Modal  style={{marginTop:"2rem",color:"#004960",}} as={Modal.Dialog} fullscreen={true} centered show={showDefault} onHide={handleClose}>
     <Modal.Header>
@@ -157,7 +154,22 @@ export const AccSearchPage = () => {
       <section>{a}</section>
     
     </div>
-    <table class="table  text-center">
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <table class="table table-stribed">
 
 <thead >
   
@@ -189,66 +201,120 @@ export const AccSearchPage = () => {
        <div >
         
 <hr/>
-  <Table responsive="sm" class="table table-light ">
+  <Table responsive="sm" class="table">
     <thead>
       <tr>
         <th>#</th>
-        <th> تاريخ التسجيل</th>
-        <th> تاريخ نهاية الوثيقة</th>
-        <th> نوع الوثيقة</th>
+        <th> نوع التأمين الرئيسي</th>
+        <th> نوع التأمين الفرعي</th>
         <th>اسم الشركة</th>
         <th>رقم الحساب</th>
         <th>اسم الزبون</th>
         <th>رقم الوثيقة</th>
-        <th>مبلغ القسط</th>
-        <th>قيمة المدفوع نقدي</th>
-        <th>مجموع مبلغ الشيكات</th>
-        <th>مجموع مبلغ المرتجع</th>
-        <th style={{color:'green'}}>متبقي للدفع</th>
-        <th style={{color:'green'}}>حالة التسديد</th>
+        <th>تاريخ التسجيل</th>
+        <th>تاريخ بداية الوثيقة</th>
+        <th>تاريخ نهاية الوثيقة</th>
+        <th>العين المؤمنة</th>
+        <th>مبلغ الوثيقة</th>
+        <th>مدفوع نقدا</th>
+        <th>الوصف</th>
       </tr>
-     
     </thead>
     <tbody>
       <tr>
         <td>#</td>
-        <td>{moment(i.reg_dt).format("DD/MM/YYYY")}</td>
-        <td>{moment(i.end_dt).format("DD/MM/YYYY")}</td>
-        <td>{i.doc_type}</td>
+        <td>{i.maj_ins}</td>
+        <td>{i.min_ins}</td>
         <td>{i.comp_name}</td>
-        <td>{i.cust_acc}</td>
+        <td class="my-3">{i.cust_acc}</td>
         <td>{i.cust_name}</td>
         <td>{i.pol_no}</td>
+        <td>{i.reg_dt}</td>
+        <td>{i.start_dt}</td>
+        <td>{i.end_dt}</td>
+        <td>{i.car_type}</td>
         <td>{i.total_prem}</td>
         <td>{i.cash}</td>
-        <td>{i.chq_value}</td>
-        <td>{(a,i) =>  (a = a + i.chq_value , 0 ) || 0}</td>
-        <td>{i.total_prem-(i.cash+i.chq_value+i.return_val) || 0}</td>
-        
-        
-        <td>{  (i.total_prem-(i.cash+i.chq_value+i.return_val))==0 &&(i.cash+i.chq_value)!=0 ? <div className='badge badge bg-success text-wrap font-weight-bold'>مقبوض كامل</div>
-  : null}
-  { (i.total_prem>(i.cash+i.chq_value)) &&(i.cash>0 || i.chq_value>0) ? <div className='badge badge bg-warning text-dark text-wrap font-weight-bold'>مقبوض جزئي</div>
-  : null}
-  {  i.total_prem-(i.cash+i.chq_value+i.return_val)<0 ? <div className='badge rounded-pill bg-info text-dark font-weight-bold'>القبض اعلى من المبلغ</div>
-  : null}
-   { (i.total_prem-(i.cash+i.chq_value+i.return_val))==(i.total_prem-i.return_val) ? <div className='badge badge bg-danger text-wrap font-weight-bold'>غير مقبوض</div>
-  : null}
-   { i.total_prem==0 && (i.cash+i.chq_value==0) ? <div className='badge badge bg-danger text-wrap font-weight-bold'>غير مقبوض</div>
-  : null}
-   {i.return_val !=null && (i.total_prem===i.return_val) &&(i.cash+i.chq_value)==0 ? <div className='badge badge bg-primary text-wrap font-weight-bold'>مرتجع كامل</div>
-  : null}
-  </td>
+        <td>{i.notes}</td>
       </tr>
-      
+      <td>
+       مبلغ المرتجع :{i.return_val}</td>
+      <td> تفاصيل قيد المرتجع :{i.description}</td>
      
     </tbody>
   
   </Table>
+<br/>
+<hr/>
+<div class="card-header text-center"> {`تفاصيل الشيكات بشكل مفصل  لوثيقة ${i.pol_no} -لرقم حساب ${i.cust_acc}`}</div>
+<table class="table table-bordered">
+
+  <thead >
+    
+    <tr>
+    <th scope="row">رقم الوثيقة</th>
+    <th scope="row">البنك</th>
+      <th scope="row">رقم الشيك</th>
+      <th scope="row">تاريخ الشيك</th>
+      <th scope="row">اسم صاحب الشيك</th>
+      <th scope="row">اسم الزبون</th>
+      <th scope="row">مبلغ الشيك</th>
+      <th scope="row">دفعة كاش- شيكل</th>
+    </tr>
+  </thead>
+    
+      <tbody >
+      <tr >
+      <td >{i.polno}</td>
+      <td >{i.bank}</td>
+      <td >{i.chq_no}</td>
+      <td >{moment(i.chq_date).format("DD/MM/YYYY")}</td>
+      <td scope="row">{i.chq_owner}</td>
+      <td scope="row">{i.cust_name}</td>
+      <td>{i.chq_value}</td>
+      <td > {i.cash} </td>
+    </tr>
+      
+    </tbody>
+
+   
+<td > مبلغ الشيك ={i.chq_value}</td>
+<td > مبلغ النقدي= {i.cash}</td>
 
 
+</table>
+<hr/>
 
+  <div class="card text-center">
+  <div class="card-header">
+   {"تفاصيل القيد"}
+   <hr/>
+   {  i.total_prem-(i.cash+i.chq_value+i.return_val)==0 ? <div className='badge badge bg-success text-wrap font-weight-bold'>مقبوض كامل</div>
+  : null}
+  { (i.total_prem-(i.cash+i.chq_value+i.return_val))>0 ? <div className='badge badge bg-warning text-dark text-wrap font-weight-bold'>مقبوض جزئي</div>
+  : null}
+  {  i.total_prem-(i.cash+i.chq_value+i.return_val)<0 ? <div className='badge rounded-pill bg-info text-dark font-weight-bold'>القبض اعلى من المبلغ</div>
+  : null}
+   { (i.total_prem-(i.cash+i.chq_value+i.return_val))==i.total_prem ? <div className='badge badge bg-danger text-wrap font-weight-bold'>غير مقبوض</div>
+  : null}
+   <p class="card-body">
+  <a class="btn btn-primary">المبلغ المتبقي للتحصيل={i.total_prem-(i.cash+i.chq_value+i.return_val)}</a>
   
+  </p>
+  
+
+  <p class="card-body">
+  <section class="btn btn-primary">المبلغ المرتجع={i.return_val}</section>
+  <section class="btn btn-primary">المبلغ المدفوع نقدا={i.cash}</section>
+  <section class="btn btn-primary">المبلغ المفوع شيك={i.chq_value}</section>
+  <section class="btn btn-primary">المبلغ الكلي={i.total_prem}</section>
+
+ 
+  
+  </p>
+  </div>
+ 
+</div>
 
   
 </div>
@@ -257,7 +323,7 @@ export const AccSearchPage = () => {
 
 <div >
 <div class="card-header text-center">تفاصيل الشيكات</div>
-  <table class="table table-striped ">
+  <table class="table table-bordered">
 
   <thead >
     
@@ -292,8 +358,8 @@ return(
     </tbody>
 
     )})}
-<td  className='table-info'>مجموع مبلغ الشيكات ={(accdt.reduce((a,v) =>  a = a + v.chq_value , 0 ))}</td>
-<td  className='table-info'>مجموع مبلغ النقدي= {(accdt.reduce((a,v) =>  a = a + v.cash , 0 ))}</td>
+<td >مجموع مبلغ الشيكات ={(accdt.reduce((a,v) =>  a = a + v.chq_value , 0 ))}</td>
+<td >مجموع مبلغ النقدي= {(accdt.reduce((a,v) =>  a = a + v.cash , 0 ))}</td>
 
 
 </table>
@@ -303,7 +369,7 @@ return(
     
     <Modal.Footer>
       <Button variant="secondary" onClick={handleClose}>
-      اغلاق
+        I Got It
     </Button>
       <Button variant="link" className="text-gray ms-auto" onClick={handleClose}>
         اغلاق

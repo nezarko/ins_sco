@@ -12,7 +12,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useReactToPrint } from 'react-to-print';
 import { useForm } from "react-hook-form";
 
-
+const lurl="http://localhost:3001";
+const url="https://alwafi.thesmartlogic.com";
 toast.configure()
 const ScoPage=(props)=>{
     const [cover,setCover]=useState()
@@ -106,7 +107,7 @@ const ScoPage=(props)=>{
                           <MenuItem value={'ترست للتأمين'}>ترست للتأمين</MenuItem>
                           <MenuItem value={'الوطنية للتأمين'}>الوطنية للتأمين</MenuItem>
                           <MenuItem value={'المشرق للتأمين'}>المشرق للتأمين</MenuItem>
-                          <MenuItem value={'تمكين للتأمين<'}>تمكين للتأمين</MenuItem>
+                          <MenuItem value={'تمكين للتأمين'}>تمكين للتأمين</MenuItem>
                           <MenuItem value={'العالمية للتأمين'}>العالمية للتأمين</MenuItem>
                           <MenuItem value={'الأهلية للتأمين'}>الأهلية للتأمين</MenuItem>
                           </Select>
@@ -220,7 +221,7 @@ const ScoPage=(props)=>{
                       </FormControl>
                  
                       <FormControl as={Col} id="outlined-basic">
-                      <TextField size="small" size="small" variant="outlined" onChange={(e)=>{Settotalprem(e.target.value)}}   type="number" label=" القسط الاجمالي" />
+                      <TextField size="small"  variant="outlined" onChange={(e)=>{Settotalprem(prem+feez-discount)}}   type="number" label=" القسط الاجمالي" />
                       </FormControl>
                     </Row>
                     <Row>
